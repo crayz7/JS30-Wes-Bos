@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+
+  div {
+    width:100%;
+    padding:100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background:mistyrose;
+  }
+
+  .three {
+    background:coral;
+  }
+</style>
+
+<button></button>
+<script>
+  const divs = document.querySelectorAll('div');
+
+  function logText(e) {
+    console.log(this.classList.value)
+    // logs 3, 2, 1
+    // e.stopPropagation() will stop the parents from being clicked. So clicking on innermost div will only log 3
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: true, // makes the logText function run downwards so the console will show 1, 2, 3
+    once: true // makes something able to be clicked on only once, useful for store checkouts
+
+  }))
+
+</script>
+</body>
+</html>
