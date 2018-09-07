@@ -2,171 +2,185 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Hold Shift to Check Multiple Checkboxes</title>
+    <meta charset="UTF-8">
+    <title>Hold Shift to Check Multiple Checkboxes</title>
 </head>
 
 <body>
-  <style>
-    html {
-      font-family: sans-serif;
-      background: #ffc600;
-    }
+    <style>
+        html {
+            font-family: sans-serif;
+            background: #ffc600;
+        }
 
-    .inbox {
-      max-width: 400px;
-      margin: 50px auto 10px;
-      background: white;
-      border-radius: 5px;
-      box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
-    }
+        .inbox {
+            max-width: 400px;
+            margin: 50px auto 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+        }
 
-    .item {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #F1F1F1;
-    }
+        .item {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #F1F1F1;
+        }
 
-    .item:last-child {
-      border-bottom: 0;
-    }
+        .item:last-child {
+            border-bottom: 0;
+        }
 
 
-    input:checked+p {
-      background: #F9F9F9;
-      text-decoration: line-through;
-    }
+        input:checked+p {
+            background: #F9F9F9;
+            text-decoration: line-through;
+        }
 
-    input[type="checkbox"] {
-      margin: 20px;
-    }
+        input[type="checkbox"] {
+            margin: 20px;
+        }
 
-    p {
-      margin: 0;
-      padding: 20px;
-      transition: background 0.2s;
-      flex: 1;
-      font-family: 'helvetica neue';
-      font-size: 20px;
-      font-weight: 200;
-      border-left: 1px solid #D1E2FF;
-    }
+        p {
+            margin: 0;
+            padding: 20px;
+            transition: background 0.2s;
+            flex: 1;
+            font-family: 'helvetica neue';
+            font-size: 20px;
+            font-weight: 200;
+            border-left: 1px solid #D1E2FF;
+        }
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      height: 50px;
-    }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            height: 50px;
+        }
 
-    button {
-      padding: 3px;
-      margin: 3px;
-      width: 197px;
-      height: 30px;
-    }
-  </style>
-  <!--
+        button {
+            padding: 3px;
+            margin: 3px;
+            width: 197px;
+            height: 30px;
+        }
+    </style>
+    <!--
    The following is a common layout you would see in an email client.
 
    When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
 
   -->
-  <div class="addTask">
-    <input type="text" class="inputText">
-    <button type="submit" class="submitButton">Submit</button>
+    <div class="addTask">
+        <input type="text" class="inputText">
+        <button type="submit" class="submitButton">Submit</button>
 
-  </div>
-  <div class="inbox">
-    <div class="item">
-      <input type="checkbox">
-      <p>This is an inbox layout.</p>
     </div>
-  </div>
-  <div class="buttons">
-    <button class="checkall">Check all</button>
-    <button class="uncheckall">Uncheck all</button>
-  </div>
+    <div class="inbox">
+        <div class="item">
+            <input type="checkbox">
+            <p>This is an inbox layout.</p>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="checkall">Check all</button>
+        <button class="uncheckall">Uncheck all</button>
+    </div>
 
-  <script>
+    <script>
 
-    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
-    const inbox = document.querySelector('.inbox')
-    const checkButton = document.querySelector('.checkall');
-    const uncheckButton = document.querySelector('.uncheckall');
-    const inputText = document.querySelector('.inputText');
-    const submitButton = document.querySelector('.submitButton')
+        const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+        const inbox = document.querySelector('.inbox')
+        const checkButton = document.querySelector('.checkall');
+        const uncheckButton = document.querySelector('.uncheckall');
+        const inputText = document.querySelector('.inputText');
+        const submitButton = document.querySelector('.submitButton')
 
-    let lastChecked;
-    const taskArray = []
+        let lastChecked;
+        const taskArray = []
 
-    function handleClick(e) {
-      // Check if they have shift key down
-      // and if they are checking the box
-      let inBetween = false
-      if (e.shiftKey && this.checked) {
-        // loop over all checkboxes
-        checkboxes.forEach(checkbox => {
-          if (checkbox === this || checkbox === lastChecked) {
-            inBetween = !inBetween;
-          }
+        // function handleClick(e) {
+        //     // Check if they have shift key down
+        //     // and if they are checking the box
+        //     console.log(e)
+        //     let inBetween = false
+        //     if (e.shiftKey && this.checked) {
+        //         // loop over all checkboxes
+        //         checkboxes.forEach(checkbox => {
+        //             if (checkbox === this || checkbox === lastChecked) {
+        //                 inBetween = !inBetween;
+        //             }
+        //             if (inBetween) {
+        //                 checkbox.checked = true;
+        //             }
+        //         })
+        //     }
+        //     lastChecked = this
+        // };
 
-          if (inBetween) {
-            checkbox.checked = true;
-          }
-        })
-      }
-      lastChecked = this
-    };
+        function handleSubmit() {
+            const addTask = inputText.value;
+            if (addTask == '') {
+                alert("You must type something!")
+            } else {
+                displayTask(addTask)
+            }
+        };
 
-    function handleSubmit() {
-      const addTask = inputText.value;
-      if (addTask == '') {
-        alert("You must type something!")
-      } else {
-        displayTask(addTask)
-      }
-    };
-
-    function displayTask(addTask) {
-      taskArray.push(addTask)
-      const display = taskArray.map(task => {
-        return `
+        function displayTask(addTask) {
+            taskArray.push(addTask)
+            const display = taskArray.map(task => {
+                return `
             <div class="item">
               <input type="checkbox">
               <p>${task}</p>
             </div>
           `
-      }).join('')
+            }).join('')
 
-      inbox.innerHTML = display;
+            inbox.innerHTML = display;
+        };
 
-    };
+        function allChecks() {
+            checkboxes.forEach(checkbox => checkbox.checked = true)
+        };
 
-    function allChecks() {
-      checkboxes.forEach(checkbox => checkbox.checked = true)
-    };
+        function unchecks() {
+            checkboxes.forEach(checkbox => checkbox.checked = false)
+        };
 
-    function unchecks() {
-      checkboxes.forEach(checkbox => checkbox.checked = false)
-    };
+        // checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleClick))
+        checkButton.addEventListener('click', allChecks);
+        uncheckButton.addEventListener('click', unchecks);
+        submitButton.addEventListener('click', handleSubmit);
 
-    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleClick))
-    checkButton.addEventListener('click', allChecks);
-    uncheckButton.addEventListener('click', unchecks);
-    submitButton.addEventListener('click', handleSubmit);
 
-    
-    document.addEventListener('click',function(e){
-    if(e.target && e.target.id == 'brnPrepend'){
-      checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleClick))
-    checkButton.addEventListener('click', allChecks);
-    uncheckButton.addEventListener('click', unchecks);
-    submitButton.addEventListener('click', handleSubmit)
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.type == "checkbox") {
 
-    }
- })
+                console.log(e)
+                let inBetween = false;
+                
+                if (e.shiftKey && e.target.checked) {
+                    // loop over all checkboxes
+                    
+                    checkboxes.forEach(checkbox => {
+                        console.log(e.target)
+                        console.log(checkbox)
+                        
+                        if (checkbox === e.target || checkbox === lastChecked) {
+                            inBetween = !inBetween;
+                        }
+                        if (inBetween) {
+                            e.target.checked = true;
+                        }
+                    })
+                }
+                lastChecked = e.target;
+            }
+        })
 
-  </script>
+    </script>
 </body>
 
 </html>
